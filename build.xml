@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="all" name="jwt">
+  <description>jwt build</description>
+  <xmlproperty file="expath-pkg.xml"/>
+  <property name="project.version" value="${package(version)}"/>
+  <property name="project.app" value="jwt"/>
+  <property name="build.dir" value="build"/>
+  <!-- Start it -->
+  <target name="clean" description="create build directory">
+    <delete dir="${build.dir}"/>
+    <mkdir dir="${build.dir}"/>
+  </target>
+  <!-- Release build -->
+  <target name="build" depends="clean" description="compile release build">
+    <zip basedir="." 
+      destfile="${build.dir}/${project.app}-${project.version}.xar"
+      excludes="${build.dir}/** examples/** build*.xml node_modules/** reports/** .*/** *.tmpl *.json test/mocha/*"/>
+  </target>
+  <target name="all" depends="build">
+  </target>
+</project>
