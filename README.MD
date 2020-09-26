@@ -1,6 +1,6 @@
 # exist-JWT
 
-[![Build Status](https://travis-ci.com/eXistSolutions/jwt.svg)](https://travis-ci.com/eXistSolutions/jwt) ![JWT compatible](https://jwt.io/img/badge-compatible.svg)
+[![Build Status](https://travis-ci.com/eXistSolutions/jwt.svg?token=qmpymKjbSAbb74pPJ4EC&branch=main)](https://travis-ci.com/eXistSolutions/jwt) ![JWT compatible](https://jwt.io/img/badge-compatible.svg)
 
 existdb library to create and read [JSON Web Tokens](jwt.io) with arbitrary payloads.
 
