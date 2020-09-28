@@ -21,7 +21,6 @@ services:
 env:
   - img=existdb/existdb:latest
   - img=existdb/existdb:release
-  - img=existdb/existdb:4.7.1
 
 cache:
   npm: true
@@ -30,7 +29,7 @@ cache:
 
 before_install:
   - docker pull $img
-  - docker create  --name exist-ci -p 8080:8080 $img
+  - docker create --name exist-ci -p 8080:8080 $img
 
 
 install:
@@ -38,6 +37,10 @@ install:
   - ant
 
 before_script:
+  # get crypto lib (enforce install order by name)
+  - curl http://www.exist-db.org/exist/apps/public-repo/public/expath-crypto-module-1.0.0.xar --output aa-crypto.xar
+  # copy xars to autodeploy
+  - docker cp aa-crypto.xar exist-ci:exist/autodeploy
   - docker cp ./build/*.xar exist-ci:exist/autodeploy
   - docker start exist-ci
   # exist needs time
