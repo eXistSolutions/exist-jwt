@@ -5,7 +5,6 @@ language: node_js
 
 node_js:
   - "node"
-  - "12"
 
 jdk:
   - openjdk8
@@ -21,6 +20,7 @@ services:
 env:
   - img=existdb/existdb:latest
   - img=existdb/existdb:release
+  - img=existdb/existdb:5.1.1
 
 cache:
   npm: true
