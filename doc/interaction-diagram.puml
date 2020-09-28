@@ -1,0 +1,32 @@
+@startuml
+
+actor user
+user -> application: request url
+
+application -> "exist-JWT": jwt:instance(secret, lifetime)
+note right of "exist-JWT"
+create a token from secret with specific lifetime
+end note
+
+"exist-JWT" -> application: JWT instance
+
+
+
+
+application -> "exist-JWT":jwt:create(payload)
+
+"exist-JWT" -> application: jwt:create(payload)
+"exist-JWT" -> "exist-JWT": jwt:read
+note right: read and verify token
+
+
+
+note right of "exist-JWT"
+attach a payload to the token
+end note
+"exist-JWT" -> application: (payload, token)
+
+
+application -> user: request with token
+
+@enduml
