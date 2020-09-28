@@ -10,6 +10,8 @@ As long as you keep your secret you can trust the information in valid tokens.
 
 ## Usage
 
+exist-JWT is implemented as an XQuery module and packaged as an eXist-db xar package which will be installed alongside your app.
+
 Install the [XAR](https://github.com/eXistSolutions/jwt/releases/) and
 
     import module namespace jwt="http://existsolutions.com/ns/jwt";
