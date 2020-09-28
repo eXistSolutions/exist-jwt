@@ -21,8 +21,8 @@ For more details look at [examples](https://github.com/eXistSolutions/jwt/tree/m
 
 ## Requirements
 
-- eXist-db version 4.7.0+
-- eXist-db crypto lib
+- eXist-db version 5.0.0+
+- eXist-db crypto lib 1.0.0+
 
 ## Testing
 
