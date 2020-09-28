@@ -3,7 +3,7 @@
   xmlns="http://expath.org/ns/pkg" name="http://existsolutions.com/ns/jwt"
   abbrev="jwt" version="1.0.0" spec="1.0">
   <title>jwt - create, read and verify JSON web tokens</title>
-  <dependency processor="http://exist-db.org" semver-min="4.7.0"/>
+  <dependency processor="http://exist-db.org" semver-min="5.0.0"/>
   <dependency package="http://expath.org/ns/crypto" semver-min="1.0.0"/>
   <xquery>
     <namespace>http://existsolutions.com/ns/jwt</namespace>
