@@ -32,7 +32,7 @@ Prequisites:
 
 - node 10+
 - `npm install`
-- a running exist-db v4.7+ at localhost:8080 with jwt installed
+- a running exist-db at localhost:8080 with jwt installed
 
 `npm test`
 
@@ -41,6 +41,6 @@ Prequisites:
 
 Prequisites:
 
-- a running exist-db v4.7+ with jwt installed
+- a running exist-db with jwt installed
 
 Evaluate `/db/system/jwt-1.0.0/test/runner.xq`
