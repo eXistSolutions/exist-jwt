@@ -26,7 +26,7 @@ For more details look at [examples](https://github.com/eXistSolutions/jwt/tree/m
 
 ## Testing
 
-### command line
+### Command line
 
 Prequisites:
 
@@ -44,3 +44,10 @@ Prequisites:
 - a running exist-db with jwt installed
 
 Evaluate `/db/system/jwt-1.0.0/test/runner.xq`
+
+### Getting and using a token
+
+This interaction diagram shows how a token is created and used
+to access a restricted resource.
+
+![](doc/interaction_diagram.png?raw=true)

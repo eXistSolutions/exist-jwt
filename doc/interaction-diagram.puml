@@ -1,0 +1,38 @@
+@startuml
+
+actor user
+user -> application: request token
+
+application -> "exist-JWT": jwt:instance(secret, lifetime)
+note right of "exist-JWT"
+return map with partial functions
+end note
+
+"exist-JWT" -> application: JWT instance
+note right of application
+build payload which usually
+includes username and groups
+end note
+
+
+application -> application:instance:create(payload)
+note right of application
+signed token includes payload
+with "iat" (issued at)
+end note
+application -> user: token
+
+user -> application: request restrited resource
+note right: header contains token
+
+application -> application: instance:verify(token)
+note right of application
+if token is valid payload is returned
+end note
+application -> application:  authorize
+
+
+
+application -> user: return restricted resource
+
+@enduml
