@@ -10,7 +10,16 @@ declare variable $jwt:epoch-start := xs:dateTime("1970-01-01T00:00:00Z");
 declare variable $jwt:default-token-lifetime := 30*24*60*60; (:xs:dayTimeDuration("P30D");:)
 declare variable $jwt:header := jwt:encode(map { "alg": "HS256", "typ": "JWT" });
 
-
+(:~
+ : Returns a map with two keys: "create" and "read".
+ : Both are partially applied functions with an arity of one.
+ : This is for comfort, having to pass only the payload to "create" and 
+ : the token to "read".
+ :
+ : @param   $secret     a longer string which will be used to sign tokens
+ : @param   $lifetime   the number of seconds each issued token stays valid
+ : @returns map(xs:string, function(*))
+ :)
 declare function jwt:instance ($secret as xs:string, $lifetime as xs:integer) as map(*) {
     let $now := current-dateTime() => jwt:dateTime-to-epoch()
 
@@ -21,6 +30,14 @@ declare function jwt:instance ($secret as xs:string, $lifetime as xs:integer) as
         }
 };
 
+(:~
+ : Issue a signed JWT
+ :
+ : @param $payload any map(*) - the key "iat", for issued at, will be added
+ : @param $time    seconds since $jwt:epoch-start, will be the value for "iat" 
+ : @param $secret  the signing key
+ : @return xs:string the signed token
+ :)
 declare function jwt:create ($payload as map(*), $time as xs:integer, $secret as xs:string) as xs:string {
     let $enc-payload :=
         $payload
@@ -36,23 +53,14 @@ declare function jwt:create ($payload as map(*), $time as xs:integer, $secret as
         => string-join(".")
 };
 
-declare function jwt:sign ($data as xs:string, $secret as xs:string) as xs:string {
-    crypto:hmac($data, $secret, "HMAC-SHA-256", "base64")
-    => jwt:base64-url-safe()
-};
-
 (:~
- : verify signature
+ : Issue a signed JWT
+ :
+ : @param $token    a JWT to read and verify
+ : @param $secret   the signing key
+ : @param $lifetime how old, in seconds, the token is allowed to be
+ : @return xs:string the signed token
  :)
-declare function jwt:verify-signature ($payload as xs:string, $signature as xs:string, $secret as xs:string) as xs:boolean {
-    jwt:sign($jwt:header || "." || $payload, $secret) eq $signature
-};
-
-declare function jwt:read-header ($header-value as xs:string, $secret as xs:string, $lifetime as xs:integer) as item()? {
-    substring-after($header-value, "Bearer ")
-    => jwt:read($secret, $lifetime)
-};
-
 declare function jwt:read ($token as xs:string, $secret as xs:string, $lifetime as xs:integer) as item()? {
     let $parts := tokenize($token, "\.")
 
@@ -76,6 +84,22 @@ declare function jwt:read ($token as xs:string, $secret as xs:string, $lifetime 
         else (error())
 };
 
+declare function jwt:sign ($data as xs:string, $secret as xs:string) as xs:string {
+    crypto:hmac($data, $secret, "HMAC-SHA-256", "base64")
+    => jwt:base64-url-safe()
+};
+
+(:~
+ : verify signature
+ :)
+declare function jwt:verify-signature ($payload as xs:string, $signature as xs:string, $secret as xs:string) as xs:boolean {
+    jwt:sign($jwt:header || "." || $payload, $secret) eq $signature
+};
+
+declare function jwt:read-header ($header-value as xs:string, $secret as xs:string, $lifetime as xs:integer) as item()? {
+    substring-after($header-value, "Bearer ")
+    => jwt:read($secret, $lifetime)
+};
 
 declare function jwt:dateTime-to-epoch($dateTime as xs:dateTime) as xs:integer {
     ($dateTime - $jwt:epoch-start) div xs:dayTimeDuration('PT1S')
