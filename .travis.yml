@@ -32,6 +32,9 @@ install:
   - npm start
 
 before_script:
+  # exist in docker needs to be restarted for java changes to be picked up
+  - docker restart exist-ci
+  - sleep 30
   - docker ps
 
 script:
