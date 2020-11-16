@@ -16,8 +16,8 @@ Install the [XAR](https://github.com/eXistSolutions/jwt/releases/) and
 
     import module namespace jwt="http://existsolutions.com/ns/jwt";
 
-For more details look at [examples](https://github.com/eXistSolutions/jwt/tree/master/examples) and
-[tests](https://github.com/eXistSolutions/jwt/tree/master/test).
+For more details look at [examples](https://github.com/eXistSolutions/jwt/tree/master/src/examples) and
+[tests](https://github.com/eXistSolutions/jwt/tree/master/src/test).
 
 ## Requirements
 
@@ -43,11 +43,11 @@ Prequisites:
 
 - a running exist-db with jwt installed
 
-Evaluate `/db/system/jwt-1.0.0/test/runner.xq`
+Evaluate `test/runner.xq`
 
 ### Getting and using a token
 
 This interaction diagram shows how a token is created and used
 to access a restricted resource.
 
-![](doc/interaction_diagram.png?raw=true)
+![](src/doc/interaction_diagram.png?raw=true)
