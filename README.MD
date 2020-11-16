@@ -31,11 +31,16 @@ For more details look at [examples](https://github.com/eXistSolutions/jwt/tree/m
 Prequisites:
 
 - node 10+
-- `npm install`
-- a running exist-db at localhost:8080 with jwt installed
+- a running exist-db at localhost:8080
 
-`npm test`
+Clone this repository and
 
+1. Install dev dependencies
+    - `npm install`
+2. Build and install the XAR package in your exist-db instance
+    - `npm start`
+3. Run the testsuite
+    - `npm test`
 
 ### eXide
 
