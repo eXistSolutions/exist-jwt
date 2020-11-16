@@ -1,0 +1,19 @@
+{
+    "servers": {
+        "localhost": {
+            "server": "http://localhost:8080/exist",
+            "user": "admin",
+            "password": "",
+            "root": "/db/system/repo/jwt"
+        }
+    },
+    "package": {
+        "author": "Juri Leino",
+        "target": "jwt",
+        "description": "Create, read and verify JSON Web Tokens (JWT) in exist-db",
+        "namespace": "http://existsolutions.com/ns/jwt",
+        "status": "beta",
+        "title": "JWT - Create, read and verify JSON Web Tokens (JWT) in exist-db",
+        "export": "jwt.xqm"
+    }
+}

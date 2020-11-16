@@ -63,7 +63,7 @@ Temporary Items
 # =========================
 
 *.xar
-.existdb.json
+#.existdb.json
 query-results
 
 # =========================
@@ -72,16 +72,7 @@ query-results
 
 .yo-rc.json
 node_modules/
-coverage
 build/
-bower_components/
 .idea
 .vscode
 reports/
-
-# =========================
-# tei-pub (gulp)
-# =========================
-webtest/bin
-webtest/reports
-webtest/errorShots
