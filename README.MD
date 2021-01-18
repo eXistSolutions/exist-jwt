@@ -1,6 +1,6 @@
 # exist-JWT
 
-[![Build Status](https://travis-ci.com/eXistSolutions/jwt.svg?token=qmpymKjbSAbb74pPJ4EC&branch=main)](https://travis-ci.com/eXistSolutions/jwt) ![JWT compatible](https://jwt.io/img/badge-compatible.svg)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) ![JWT compatible](https://jwt.io/img/badge-compatible.svg)
 
 eXist-db library to create and read [JSON Web Tokens](jwt.io) with arbitrary payloads.
 
