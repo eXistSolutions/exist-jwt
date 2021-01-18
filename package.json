@@ -34,7 +34,8 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha src/test/mocha/*.js",
-    "start": "gulp install"
+    "start": "gulp install",
+    "build": "gulp build"
   },
   "repository": {
     "type": "git",
