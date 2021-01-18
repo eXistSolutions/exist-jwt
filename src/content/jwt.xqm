@@ -2,7 +2,6 @@ xquery version "3.1";
 
 module namespace jwt = "http://existsolutions.com/ns/jwt";
 
-
 import module namespace crypto ="http://expath.org/ns/crypto";
 
 

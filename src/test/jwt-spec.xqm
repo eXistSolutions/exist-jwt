@@ -22,7 +22,12 @@ declare variable $jwt-spec:now := current-dateTime() => jwt:dateTime-to-epoch();
 
 declare variable $jwt-spec:payload := map { "a": "b", "c": map {1: 2}, "d": [ 3, "e"] };
 
-declare variable $jwt-spec:real-u := sm:id()/sm:id/sm:real;
+declare variable $jwt-spec:real-u :=
+<sm:id>
+    <sm:username>admin</sm:username>
+    <sm:groups><sm:group>dba</sm:group></sm:groups>
+</sm:id>
+;
 
 declare variable $jwt-spec:user-payload := map {
     "name": $jwt-spec:real-u/sm:username/text(),
@@ -94,7 +99,7 @@ function jwt-spec:payload-has-valid-iat () {
 (:~
  : deliberately create a token that is too old 
  :)
-declare 
+declare
     %test:assertError("too-old")
 function jwt-spec:old-token () {
     let $instance := jwt-spec:instance()
@@ -107,7 +112,7 @@ function jwt-spec:old-token () {
 (:~
  : deliberately create a token that is too old 
  :)
-declare 
+declare
     %test:assertError("future-date")
 function jwt-spec:future-token () {
     let $instance := jwt-spec:instance()
@@ -132,7 +137,7 @@ function jwt-spec:arbitrary-token-with-separators () {
 (:~
  : handle arbitrary token 
  :)
-declare 
+declare
     %test:assertError("invalid-token")
 function jwt-spec:random-token () {
     let $instance := jwt-spec:instance()
@@ -143,7 +148,7 @@ function jwt-spec:random-token () {
 (:~
  : handle empty token 
  :)
-declare 
+declare
     %test:assertError("invalid-token")
 function jwt-spec:emtpy-token () {
     let $instance := jwt-spec:instance()
@@ -153,7 +158,7 @@ function jwt-spec:emtpy-token () {
 (:~
  : handle no payload 
  :)
-declare 
+declare
     %test:assertError("err:XPTY0004")
 function jwt-spec:no-payload () {
     let $instance := jwt-spec:instance()
@@ -163,7 +168,7 @@ function jwt-spec:no-payload () {
 (:~
  : handle empty payload 
  :)
-declare 
+declare
     %test:assertTrue
 function jwt-spec:empty-payload () {
     let $instance := jwt-spec:instance()

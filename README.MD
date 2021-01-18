@@ -1,6 +1,6 @@
 # exist-JWT
 
-[![Build Status](https://travis-ci.com/eXistSolutions/jwt.svg?token=qmpymKjbSAbb74pPJ4EC&branch=main)](https://travis-ci.com/eXistSolutions/jwt) ![JWT compatible](https://jwt.io/img/badge-compatible.svg)
+![Semantic Release](https://github.com/eXistSolutions/exist-jwt/workflows/Semantic%20Release/badge.svg) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) ![JWT compatible](https://jwt.io/img/badge-compatible.svg)
 
 eXist-db library to create and read [JSON Web Tokens](jwt.io) with arbitrary payloads.
 
@@ -16,8 +16,8 @@ Install the [XAR](https://github.com/eXistSolutions/jwt/releases/) and
 
     import module namespace jwt="http://existsolutions.com/ns/jwt";
 
-For more details look at [examples](https://github.com/eXistSolutions/jwt/tree/master/examples) and
-[tests](https://github.com/eXistSolutions/jwt/tree/master/test).
+For more details look at [examples](https://github.com/eXistSolutions/jwt/tree/master/src/examples) and
+[tests](https://github.com/eXistSolutions/jwt/tree/master/src/test).
 
 ## Requirements
 
@@ -31,11 +31,16 @@ For more details look at [examples](https://github.com/eXistSolutions/jwt/tree/m
 Prequisites:
 
 - node 10+
-- `npm install`
-- a running exist-db at localhost:8080 with jwt installed
+- a running exist-db at localhost:8080
 
-`npm test`
+Clone this repository and
 
+1. Install dev dependencies
+    - `npm install`
+2. Build and install the XAR package in your exist-db instance
+    - `npm start`
+3. Run the testsuite
+    - `npm test`
 
 ### eXide
 
@@ -43,11 +48,11 @@ Prequisites:
 
 - a running exist-db with jwt installed
 
-Evaluate `/db/system/jwt-1.0.0/test/runner.xq`
+Evaluate `test/runner.xq`
 
 ### Getting and using a token
 
 This interaction diagram shows how a token is created and used
 to access a restricted resource.
 
-![](doc/interaction_diagram.png?raw=true)
+![](src/doc/interaction_diagram.png?raw=true)
