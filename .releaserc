@@ -13,9 +13,9 @@
     ["@semantic-release/github", {
       "assets": [
         {
-          "path": "./roaster-*.xar", 
-          "name": "roaster-${nextRelease.version}.xar",
-          "label": "Expath package (roaster-${nextRelease.version}.xar)"
+          "path": "./jwt-*.xar", 
+          "name": "jwt-${nextRelease.version}.xar",
+          "label": "Expath package (jwt-${nextRelease.version}.xar)"
         }
       ]
     }]
