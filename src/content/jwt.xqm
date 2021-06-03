@@ -85,7 +85,7 @@ declare function jwt:read ($token as xs:string, $secret as xs:string, $lifetime 
 
 declare function jwt:sign ($data as xs:string, $secret as xs:string) as xs:string {
     crypto:hmac($data, $secret, "HMAC-SHA-256", "base64")
-    => jwt:base64-url-safe()
+    => util:base64-encode-url-safe()
 };
 
 (:~
@@ -112,43 +112,12 @@ declare
 function jwt:encode ($data as item()) as xs:string {
     $data
         => serialize(map { "method": "json" })
-        => util:base64-encode(true())
-        => jwt:base64-url-safe()
+        => util:base64-encode-url-safe()
 };
 
 declare
 function jwt:decode ($base64 as xs:string) as item()? {
     $base64
-        (: base64-decode might to be able to handle url-safe encoded data :)
-        => translate('-_', '/+')
-        => jwt:base64-pad()
         => util:base64-decode()
         => parse-json()
-};
-
-(:~
- : add padding (= or ==) otherwise util:base64-decode() throws an error
- :)
-declare %private
-function jwt:base64-pad ($data as xs:string) as xs:string {
-    let $mod4 := string-length($data) mod 4
-    let $pad :=
-        switch ($mod4)
-            case 2 return "=="
-            case 3 return "="
-            default return ""
-
-    return 
-        $data || $pad
-};
-
-(:~
- : convert base64 string to url-safe without padding
- : replace / and + with - and _
- : omit padding (=)
- : @see https://tools.ietf.org/html/rfc4648
- :)
-declare %private
-function jwt:base64-url-safe ($base64 as xs:string) as xs:string {
-    $base64 => translate('+/=', '-_')
 };
