@@ -108,11 +108,15 @@ declare function jwt:epoch-to-dateTime($ts as xs:integer) as xs:dateTime {
     $jwt:epoch-start + xs:dayTimeDuration(concat("PT", $ts, "S"))
 };
 
+(:~
+ : encode an item() for use in the JWT
+ : TODO: refactor to use arrow expressions again
+ : after existdb issue is fixed.
+ :)
 declare
 function jwt:encode ($data as item()) as xs:string {
-    $data
-        => serialize(map { "method": "json" })
-        => util:base64-encode-url-safe()
+    util:base64-encode-url-safe(
+        serialize($data, map { "method": "json" }))
 };
 
 declare

@@ -60,30 +60,20 @@ describe('xqSuite', function () {
         .catch(done)
   })
 
-  it('should return 0 errors', done => {
-    expect(result.errors).to.equal(0)    
-    done()
-  })
+  it('should return 0 errors',
+    ()=> expect(result.errors).to.equal(0))
 
-  it('should return 0 failures', done => {
-    expect(result.failures).to.equal(0)
-    done()
-  })
+  it('should return 0 failures',
+    ()=> expect(result.failures).to.equal(0))
 
-  it.skip('should return 0 pending tests', done => {
-    expect(result.pending).to.equal(0)
-    done()
-  })
+  it('should return 0 pending tests',
+    ()=> expect(result.pending).to.equal(0))
 
-  it('should have run some tests', done => {
-    expect(result.tests).to.be.greaterThan(0)
-    done()
-  })
+  it('should have run 12 tests', 
+    ()=> expect(result.tests).to.equal(12))
 
-  it('should have finished in less than a second', done => {
-    expect(result.time).to.be.lessThan(1)
-    done()
-  })
+  it('should have finished in less than a second',
+    ()=> expect(result.time).to.be.lessThan(1))
 
   after(done => {
     client.delete(testCollection)
