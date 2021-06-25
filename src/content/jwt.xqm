@@ -80,7 +80,7 @@ declare function jwt:read ($token as xs:string, $secret as xs:string, $lifetime 
                 then (error(xs:QName("future-date"), $dt, jwt:epoch-to-dateTime($payload?iat)))
                 else ($payload)
         )    
-        else (error("invalid-signature"))
+        else (error(xs:QName("invalid-signature")))
 };
 
 declare function jwt:sign ($data as xs:string, $secret as xs:string) as xs:string {
