@@ -6,26 +6,31 @@ const s = require('superagent')
 
 const testRunnerLocalPath = 'src/test/mocha/runner.xq'
 
-const pkg = JSON.parse(fs.readFileSync('package.json'))
-const testCollection = '/test-' + pkg.name + '-' + pkg.version
+const { name, version } = require('../../../package.json')
+const testCollection = '/test-' + name + '-' + version
 const testRunner = testCollection + '/runner.xq'
 
+const { servers } = require('../../../.existdb.json')
+const serverInfo = servers.localhost
+const { protocol, port, hostname } = new URL(serverInfo.server)
 const connectionOptions = {
-  protocol: 'http',
-  host: "localhost",
-  port: "8080",
-  path: "/exist/apps",
-  basic_auth: {
-    user: 'admin',
-    pass: ''
-  }
+    basic_auth: {
+        user: serverInfo.user, 
+        pass: serverInfo.password
+    },
+    host: hostname,
+    port,
+    protocol,
+    path: "/exist/apps"
 }
+
+console.log(connectionOptions)
 
 function connection (options) {
   const protocol = options.protocol ? options.protocol : 'http'
   const port = options.port ? ':' + options.port : ''
   const path = options.path.startsWith('/') ? options.path : '/' + options.path
-  const prefix = `${protocol}://${options.host}${port}${path}`
+  const prefix = `${protocol}//${options.host}${port}${path}`
   return (request) => {
     request.url = prefix + request.url
     request.auth(options.basic_auth.user, options.basic_auth.pass)
@@ -46,7 +51,7 @@ describe('xqSuite', function () {
         .send(buffer)
         .then(_ => {
           return client.get(testRunner)
-            .query({lib: pkg.name, version: pkg.version})
+            .query({lib: name, version})
             .send()
         })
         .then(response => {
