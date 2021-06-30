@@ -10,17 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
        matrix:
-         exist-version: [release, 5.0.0]
+         exist-version: [release, latest]
     services:
       # Label used to access the service container
       exist:
-        image: existdb/existdb:${{ matrix.exist-version}}
+        image: existdb/existdb:${{ matrix.exist-version }}
         ports:
           - 8080:8080
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 14
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 14
       - run: npm ci
@@ -37,7 +37,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 14
       - name: Install dependencies

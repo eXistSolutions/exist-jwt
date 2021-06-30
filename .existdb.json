@@ -10,6 +10,7 @@
     "package": {
         "author": "Juri Leino",
         "target": "jwt",
+        "homepage": "https://github.com/eXistSolutions/exist-jwt#readme",
         "description": "Create, read and verify JSON Web Tokens (JWT) in exist-db",
         "namespace": "http://existsolutions.com/ns/jwt",
         "status": "beta",

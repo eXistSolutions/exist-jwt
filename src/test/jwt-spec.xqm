@@ -124,10 +124,13 @@ function jwt-spec:future-token () {
 
 (:~
  : handle arbitrary token 
- : NOTE: this test fails with an NPE while calling it from Xquery directly works
+ : NOTE:
+ : This test failed with an NPE in jwt:encode while building
+ : the $jwt:header variable.
+ : Calling the same code in a module directly always worked fine
+ : the implementation of jwt:encode was now refactored only to be extra sure.
  :)
 declare
-    %test:pending
     %test:assertError("invalid-header")
 function jwt-spec:arbitrary-token-with-separators () {
     let $instance := jwt-spec:instance()
