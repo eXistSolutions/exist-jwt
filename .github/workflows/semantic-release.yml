@@ -9,8 +9,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
-       matrix:
-         exist-version: [release, latest]
+      matrix:
+        exist-version: [release, latest]
     services:
       # Label used to access the service container
       exist:
