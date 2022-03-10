@@ -103,7 +103,7 @@ function xar () {
  */
 function installXar () {
     return src(packageName())
-        .pipe(existClient.install({ packageUri: package.namespace }))
+        .pipe(existClient.install())
 }
 
 // composed tasks
