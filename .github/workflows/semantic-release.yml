@@ -8,9 +8,16 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
-       matrix:
-         exist-version: [release, latest]
+      fail-fast: true
+      matrix:
+        exist-version: [release, 6.0.1]
+        experimental: [false]
+        # latest might contain breaking changes
+        include:
+          - exist-version: latest
+            experimental: true
     services:
       # Label used to access the service container
       exist:
