@@ -121,7 +121,7 @@ declare function jwt:epoch-to-dateTime($ts as xs:integer) as xs:dateTime {
 declare
 function jwt:encode ($data as item()) as xs:string {
     util:base64-encode-url-safe(
-        serialize($data, map { "method": "json" }))
+        serialize($data, map { "method": "json", "indent": false() }))
 };
 
 declare
