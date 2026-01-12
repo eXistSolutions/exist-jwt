@@ -84,8 +84,13 @@ declare function jwt:read ($token as xs:string, $secret as xs:string, $lifetime 
 };
 
 declare function jwt:sign ($data as xs:string, $secret as xs:string) as xs:string {
+    (:
+     : This is a band-aid for the output of crypto:hmac being cast to a base64 encoded xs:string
+     : which uses + and / characters. Since util:base64-encode-url-safe cannot operate on binary data,
+     : we do a manual replacement here.
+     :)
     crypto:hmac($data, $secret, "HMAC-SHA-256", "base64")
-    => util:base64-encode-url-safe()
+    => translate("+/=", "-_") 
 };
 
 (:~
