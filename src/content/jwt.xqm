@@ -4,7 +4,6 @@ module namespace jwt = "http://existsolutions.com/ns/jwt";
 
 import module namespace crypto ="http://expath.org/ns/crypto";
 
-
 declare variable $jwt:epoch-start := xs:dateTime("1970-01-01T00:00:00Z");
 declare variable $jwt:default-token-lifetime := 30*24*60*60; (:xs:dayTimeDuration("P30D");:)
 declare variable $jwt:header := jwt:encode(map { "alg": "HS256", "typ": "JWT" });
@@ -72,13 +71,26 @@ declare function jwt:read ($token as xs:string, $secret as xs:string, $lifetime 
         then (
             (:  verify token lifetime (iat) :)
             let $payload := jwt:decode($parts[2])
-            let $dt := jwt:dateTime-to-epoch(current-dateTime()) - $payload?iat
+            let $iat := xs:integer($payload?iat)
+            let $dt as xs:integer := jwt:dateTime-to-epoch(current-dateTime()) - $iat
             return
                 if ($dt > $lifetime)
-                then (error(xs:QName("too-old"), $dt, jwt:epoch-to-dateTime($payload?iat)))
+                then (
+                    error(
+                        xs:QName("too-old"),
+                        "The token is no longer valid - since " || $dt || " seconds.",
+                        jwt:epoch-to-dateTime($iat))
+                )
                 else if ($dt < 0)
-                then (error(xs:QName("future-date"), $dt, jwt:epoch-to-dateTime($payload?iat)))
-                else ($payload)
+                then (
+                    error(
+                        xs:QName("future-date"),
+                        "The token is not valid yet - valid in " || ($dt * -1) || " seconds.",
+                        jwt:epoch-to-dateTime($iat))
+                )
+                else (
+                    $payload
+                )
         )    
         else (error(xs:QName("invalid-signature")))
 };
@@ -106,7 +118,9 @@ declare function jwt:read-header ($header-value as xs:string, $secret as xs:stri
 };
 
 declare function jwt:dateTime-to-epoch($dateTime as xs:dateTime) as xs:integer {
-    ($dateTime - $jwt:epoch-start) div xs:dayTimeDuration('PT1S')
+    let $duration := $dateTime - $jwt:epoch-start
+    let $seconds := $duration div xs:dayTimeDuration('PT1S')
+    return xs:integer(round($seconds))
 };
 
 declare function jwt:epoch-to-dateTime($ts as xs:integer) as xs:dateTime {
