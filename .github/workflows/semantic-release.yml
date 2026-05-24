@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        exist-version: [release, 6.0.1]
+        exist-version: [release, 6.0.1, 5.3.0]
         experimental: [false]
         # latest might contain breaking changes
         include:
@@ -25,11 +25,10 @@ jobs:
         ports:
           - 8080:8080
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 14
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 'lts/*'
       - run: npm ci
       - run: npm start
       - run: npm test
@@ -46,7 +45,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 'lts/*'
       - name: Install dependencies
         run: npm ci
       - name: Release
