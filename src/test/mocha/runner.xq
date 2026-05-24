@@ -10,7 +10,7 @@ declare option output:method "json";
 declare option output:media-type "application/json";
 
 declare
-function local:get-module-uri ($lib as xs:string, $version as xs:string) as xs:string* {
+function local:get-module-uri ($lib as xs:string, $version as xs:string) as xs:anyURI {
     xs:anyURI(
         ``[xmldb:///db/system/repo/`{$lib}`-`{$version}`/test/`{$lib}`-spec.xqm]``)
 };
