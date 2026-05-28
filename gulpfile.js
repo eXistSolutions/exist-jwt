@@ -1,42 +1,42 @@
 /**
- * an example gulpfile to make ant-less existdb package builds a reality
+ * build, watch and deploy tasks for the library XAR package
  */
-const { src, dest, watch, series, parallel } = require('gulp')
+import { src, dest, watch, series, parallel, lastRun } from 'gulp'
+import { createClient, readOptionsFromEnv } from '@existdb/gulp-exist'
+import replace from '@existdb/gulp-replace-tmpl'
+import zip from 'gulp-zip'
+import rename from 'gulp-rename'
+import del from 'delete'
 
-const { createClient } = require('@existdb/gulp-exist')
-const replace = require('@existdb/gulp-replace-tmpl')
-
-const zip = require("gulp-zip")
-const rename = require('gulp-rename')
-const del = require('delete')
+import pkg from './package.json' with { type: 'json' }
 
 // read metadata from package.json and .existdb.json
-const { version, license } = require('./package.json')
-const { package, servers } = require('./.existdb.json')
+const { xar, version, license } = pkg
 
 // .tmpl replacements to include 
 // first value wins
-const replacements = [package, {version, license}]
+const replacements = [xar, {version, license}]
 
-const serverInfo = servers.localhost
-const { port, hostname } = new URL(serverInfo.server)
-const connectionOptions = {
-    basic_auth: {
-        user: serverInfo.user, 
-        pass: serverInfo.password
-    },
-    host: hostname,
-    port
-}
+const defaultOptions = { basic_auth: { user: "admin", pass: "" } }
+const connectionOptions = Object.assign(defaultOptions, readOptionsFromEnv())
 const existClient = createClient(connectionOptions);
+
+const folder = {
+    dist: 'dist',
+    build: 'build',
+    src: 'src'
+}
+
+// construct the current xar name from available data
+const xarFilename = `${xar.target}-${version}.xar`
+const packageName = xar.namespace
 
 /**
  * Use the `delete` module directly, instead of using gulp-rimraf
  */
 function clean (cb) {
-    del(['build'], cb);
+    del([folder.build, folder.dist], cb);
 }
-exports.clean = clean
 
 /**
  * replace placeholders 
@@ -49,14 +49,12 @@ function templates () {
     .pipe(rename(path => { path.extname = "" }))
     .pipe(dest('build/'))
 }
-exports.templates = templates
 
 function watchTemplates () {
     watch('src/*.tmpl', series(templates))
 }
-exports["watch:tmpl"] = watchTemplates
 
-const static = [
+const staticFiles = [
     "src/examples/*",
     "src/content/*",
     "src/test/*.*",
@@ -67,14 +65,12 @@ const static = [
  * copy html templates, XSL stylesheet, XMLs and XQueries to 'build'
  */
 function copyStatic () {
-    return src(static, {base: 'src'}).pipe(dest('build'))
+    return src(staticFiles, {base: folder.src}).pipe(dest(folder.build))
 }
-exports.copy = copyStatic
 
 function watchStatic () {
-    watch(static, series(copyStatic));
+    watch(staticFiles, series(copyStatic));
 }
-exports["watch:static"] = watchStatic
 
 /**
  * since this is a pure library package uploading
@@ -86,24 +82,21 @@ function watchBuild () {
     watch('build/**/*', series(xar, installXar))
 }
 
-// construct the current xar name from available data
-const packageName = () => `${package.target}-${version}.xar`
-
 /**
  * create XAR package in repo root
  */
-function xar () {
-    return src('build/**/*', {base: 'build'})
-        .pipe(zip(packageName()))
-        .pipe(dest('.'))
+function createXar () {
+    return src('build/**/*', {base: folder.build, encoding: false})
+        .pipe(zip(xarFilename))
+        .pipe(dest(folder.dist))
 }
 
 /**
  * upload and install the latest built XAR
  */
 function installXar () {
-    return src(packageName())
-        .pipe(existClient.install({ packageUri: package.namespace }))
+    return src(xarFilename, {cwd: folder.dist, encoding: false})
+        .pipe(existClient.install())
 }
 
 // composed tasks
@@ -111,7 +104,7 @@ const build = series(
     clean,
     templates,
     copyStatic,
-    xar
+    createXar
 )
 const watchAll = parallel(
     watchStatic,
@@ -119,11 +112,18 @@ const watchAll = parallel(
     watchBuild
 )
 
-exports.build = build
-exports.watch = watchAll
+const install = series(build, installXar)
 
-exports.xar = build
-exports.install = series(build, installXar)
+export {
+  clean,
+  templates,
+  watchTemplates as "watch:tmpl",
+  copyStatic,
+  watchStatic as "watch:static",
+  build,
+  watchAll as watch,
+  install
+}
 
 // main task for day to day development
-exports.default = series(build, installXar, watchAll)
+export default series(build, installXar, watchAll)

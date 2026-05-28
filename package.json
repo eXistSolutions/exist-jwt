@@ -13,18 +13,18 @@
     "jwt"
   ],
   "devDependencies": {
-    "@existdb/gulp-exist": "^4.0.0",
-    "@existdb/gulp-replace-tmpl": "^1.0.0",
-    "@semantic-release/exec": "^5.0.0",
-    "@semantic-release/git": "^9.0.0",
-    "@semantic-release/github": "^7.2.0",
+    "@existdb/gulp-exist": "^6.0.0",
+    "@existdb/gulp-replace-tmpl": "^1.0.4",
+    "@semantic-release/exec": "^7.1.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^12.0.8",
     "chai": "^4.2.0",
     "delete": "^1.1.0",
-    "gulp": "^4.0.2",
-    "gulp-rename": "^2.0.0",
-    "gulp-zip": "^5.0.2",
-    "mocha": "^8.2.1",
-    "semantic-release": "^17.3.2",
+    "gulp": "^5.0.1",
+    "gulp-rename": "^2.1.0",
+    "gulp-zip": "^6.1.0",
+    "mocha": "11.7.6",
+    "semantic-release": "^25.0.3",
     "superagent": "^6.1.0"
   },
   "author": {
@@ -41,5 +41,15 @@
     "type": "git",
     "url": "https://github.com/existsolutions/jwt",
     "license": "MIT"
+  },
+  "xar": {
+    "author": "Juri Leino",
+    "target": "jwt",
+    "homepage": "https://github.com/eXistSolutions/exist-jwt#readme",
+    "description": "Create, read, sign and verify JSON Web Tokens (JWT) in exist-db",
+    "namespace": "http://existsolutions.com/ns/jwt",
+    "status": "beta",
+    "title": "exist-jwt",
+    "export": "jwt.xqm"
   }
 }

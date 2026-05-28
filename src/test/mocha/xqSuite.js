@@ -24,7 +24,7 @@ const connectionOptions = {
     path: "/exist/apps"
 }
 
-console.log(connectionOptions)
+// console.log(connectionOptions)
 
 function connection (options) {
   const protocol = options.protocol ? options.protocol : 'http'
