@@ -2,8 +2,8 @@
   "name": "jwt",
   "version": "2.0.1",
   "description": "Create, read and verify JSON Web Tokens in eXist-db",
-  "homepage": "https://github.com/existsolutions/jwt#readme",
-  "bugs": "https://github.com/existsolutions/jwt/issues",
+  "homepage": "https://github.com/existsolutions/exist-jwt#readme",
+  "bugs": "https://github.com/existsolutions/exist-jwt/issues",
   "keywords": [
     "exist",
     "exist-db",
@@ -39,13 +39,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/existsolutions/jwt",
+    "url": "https://github.com/existsolutions/exist-jwt",
     "license": "MIT"
   },
   "xar": {
     "author": "Juri Leino",
     "target": "jwt",
-    "homepage": "https://github.com/eXistSolutions/exist-jwt#readme",
+    "homepage": "https://github.com/existsolutions/exist-jwt#readme",
     "description": "Create, read, sign and verify JSON Web Tokens (JWT) in exist-db",
     "namespace": "http://existsolutions.com/ns/jwt",
     "status": "beta",
