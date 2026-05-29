@@ -1,6 +1,6 @@
 {
   "name": "jwt",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Create, read and verify JSON Web Tokens in eXist-db",
   "homepage": "https://github.com/existsolutions/exist-jwt#readme",
   "bugs": "https://github.com/existsolutions/exist-jwt/issues",
