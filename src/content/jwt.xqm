@@ -143,4 +143,42 @@ function jwt:decode ($base64 as xs:string) as item()? {
     $base64
         => util:base64-decode()
         => parse-json()
+        => jwt:from-json()
+};
+
+(:~
+ : JSON object keys are always strings. After parse-json, restore keys that
+ : round-trip from xs:integer (e.g. map {1: 2} → {"1":2} → map {1: 2}).
+ :)
+declare
+    %private
+function jwt:from-json ($data as item()*) as item()* {
+    for $item in $data
+    return
+        typeswitch ($item)
+        case map(*) return
+            map:merge(
+                map:for-each($item, function ($key, $value) {
+                    map:entry(
+                        jwt:json-key($key),
+                        jwt:from-json($value)
+                    )
+                })
+            )
+        case array(*) return
+            array { jwt:from-json($item?*) }
+        default return
+            $item
+};
+
+declare
+    %private
+function jwt:json-key ($key as xs:anyAtomicType) as xs:anyAtomicType {
+    if (
+        $key instance of xs:string and
+        $key castable as xs:integer and
+        string(xs:integer($key)) eq $key
+    )
+    then (xs:integer($key))
+    else ($key)
 };
