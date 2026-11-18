@@ -1,0 +1,19 @@
+src/content/jwt.xqm
+  s_4fd869ed9341bf::t_6be8e65ef6c21f 146-183
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1baf451c4e6ec5d7ecc3e754f800cc94960b7bfc",
+  "prompts": {},
+  "sessions": {
+    "s_4fd869ed9341bf": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "88b5f018-a95f-427e-b223-83cda511e767",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
