@@ -20,7 +20,7 @@ declare variable $jwt-spec:secret := "my very special secret!!111";
 declare variable $jwt-spec:token-lifetime := 60;
 declare variable $jwt-spec:now := current-dateTime() => jwt:dateTime-to-epoch();
 
-declare variable $jwt-spec:payload := map { "a": "b", "c": map {1: 2}, "d": [ 3, "e"] };
+declare variable $jwt-spec:payload := map { "a": "b", "c": map {"1": 2}, "d": [ 3, "e"] };
 
 declare variable $jwt-spec:real-u :=
 <sm:id>
@@ -61,7 +61,7 @@ function jwt-spec:correct-payload () {
     let $payload := $instance?read($token)
     return
         $payload?a eq "b" and
-        $payload?c?1 eq 2 and
+        $payload?c?("1") eq 2 and
         $payload?d?1 eq 3 and
         $payload?d?2 eq "e"
 };
