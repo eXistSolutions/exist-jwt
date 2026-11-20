@@ -19,6 +19,19 @@ Install the [XAR](https://github.com/eXistSolutions/jwt/releases/) and
 For more details look at [examples](https://github.com/eXistSolutions/jwt/tree/master/src/examples) and
 [tests](https://github.com/eXistSolutions/jwt/tree/master/src/test).
 
+### Payload map keys
+
+Payloads are serialised to JSON, and JSON object keys are always strings.
+Use string keys in payload maps: `map { "1": 2 }`, not `map { 1: 2 }`.
+Keys of a decoded payload are always `xs:string`, so look them up with
+string keys (`$payload?("1")`, not `$payload?1`).
+
+eXist-db versions before 7 also matched an integer key against a string
+key. eXist-db 7 follows the spec and does not: `?1` looks up the
+`xs:integer` 1 ([XQuery 3.1 §3.11.3.1](https://www.w3.org/TR/xquery-31/#id-unary-lookup)),
+and an `xs:string` is never the same key as a number
+([F&O 3.1 §17.1.1 op:same-key](https://www.w3.org/TR/xpath-functions-31/#func-same-key)).
+
 ## Requirements
 
 - eXist-db version 5.0.0+
